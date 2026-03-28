@@ -13,7 +13,9 @@ Customer churn prediction is a critical task for subscription-based businesses. 
 ## Dataset
 
 Telco Customer Churn dataset (Kaggle)
+
 Target variable: Churn (Yes/No)
+
 Features include:
 - Customer demographics
 - Account information
