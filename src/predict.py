@@ -1,3 +1,4 @@
+import numpy as np
 from pathlib import Path
 import joblib
 import pandas as pd
@@ -24,13 +25,33 @@ def main():
 
     df = engineer_features(df)
     preprocessor,X,y = preprocess_and_encode(df)
+    CIDs = X["customerID"]
+    X = X.drop(columns=["customerID"])
 
+    clf = model.named_steps["clf"]
+    pre = model.named_steps["pre"]
+
+    feature_names = [f.split("__",1)[-1] for f in pre.get_feature_names_out()]
+
+    coefs = clf.coef_[0]
+
+    importance_df = pd.DataFrame({
+        "feature": feature_names,
+        "coefficient": coefs,
+        "abs_coefficient": np.abs(coefs)
+    })
+
+    importance_df = importance_df.sort_values("abs_coefficient", ascending=False)
+
+    print("\n=== TOP FEATURES (by absolute coefficient) ===")
+    print(importance_df.head(15))
+    
     y_pred = model.predict(X)
     y_prob = model.predict_proba(X)[:, 1]
 
     # save predictions
     output = pd.DataFrame({
-        "Customer ID": X["customerID"],
+        "Customer ID": CIDs,
         "actual_churn": y,
         "predicted_churn": y_pred,
         "churn_probability": y_prob

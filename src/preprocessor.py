@@ -9,18 +9,12 @@ def preprocess_and_encode(df):
 
     df["Churn"] = df["Churn"].map({"Yes": 1, "No": 0})
     
-    # target
-    target = "Churn"
-    
-    # separate features
     y = df["Churn"]
-    X = df.drop(columns=[target])
+    X = df.drop(columns=["Churn"])
     
-    # identify columns
-    cat_cols = X.select_dtypes(include="object").columns.tolist()
+    cat_cols = [col for col in X.select_dtypes(include="object").columns if col != "customerID"]
     num_cols = X.select_dtypes(exclude="object").columns.tolist()
     
-    # transformers
     preprocessor = ColumnTransformer(
         transformers=[
             ("num", StandardScaler(), num_cols),

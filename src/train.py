@@ -22,6 +22,7 @@ def main():
 
     df = engineer_features(df)
     preprocessor,X,y = preprocess_and_encode(df)
+    X = X.drop(columns = ["customerID"])
 
     logistic_pipe = Pipeline([
         ("pre", preprocessor),
