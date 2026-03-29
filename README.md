@@ -121,7 +121,7 @@ Customer-Churn/
 Clone the repository:
 
 ```bash
-git clone https://github.com/Archer-Frost/Customer-Churn.git
+git clone https://github.com/Anupam-Dasgupta/Customer-Churn.git
 cd Customer-Churn
 ```
 
